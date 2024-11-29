@@ -9,6 +9,7 @@ export default function MenuLayout() {
   return (
     <Stack
       screenOptions={{
+        //KEEP THIS ONE UNTIL THE BUG IS FIXED IN THE EXPO-ROUTER 
         headerRight: () => {
           const router = useRouter()
           return (
@@ -24,6 +25,20 @@ export default function MenuLayout() {
             </Pressable>
           )
         },
+        // headerRight: () => (
+        //   <Link href='/cart' asChild>
+        //     <Pressable >
+        //       {({ pressed }) => (
+        //         <FontAwesome
+        //           name='shopping-cart'
+        //           size={25}
+        //           color={Colors[colorScheme ?? 'light'].text}
+        //           style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+        //         />
+        //       )}
+        //     </Pressable>
+        //   </Link>
+        // ),
       }}
     >
       <Stack.Screen
