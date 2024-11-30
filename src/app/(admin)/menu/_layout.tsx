@@ -15,7 +15,7 @@ export default function MenuLayout() {
           headerRight: () => {
             const router = useRouter()
             return (
-              <Pressable onPressIn={() => router.push('/cart')}>
+              <Pressable onPressIn={() => router.push('/menu/create')}>
                 {({ pressed }) => (
                   <FontAwesome
                     name='plus-square-o'
