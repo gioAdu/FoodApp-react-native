@@ -1,7 +1,7 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import Colors from '../constants/Colors'
 import { Product } from '../types'
-import { Link } from 'expo-router'
+import { Link, useSegments } from 'expo-router'
 
 type ProductListItemProps = {
   product: Product
@@ -10,7 +10,7 @@ type ProductListItemProps = {
 export const defaultProductImage =
   'https://notjustdev-dummy.s3.us-east-2.amazonaws.com/food/default.png'
 
-const ProductListItem = ({ product }: ProductListItemProps) => {
+const ProductListItem = ({ product }: ProductListItemProps) => {  
   return (
     <Link href={`/menu/${product.id}`} asChild>
       <Pressable style={styles.container}>
