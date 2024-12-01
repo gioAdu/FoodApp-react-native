@@ -3,11 +3,10 @@ import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import products from '@/assets/data/products'
 import { defaultProductImage } from '@/src/components/ProductListIem'
 import { useState } from 'react'
-import Button from '@/src/components/Button'
 import { useCart } from '@/src/providers/CartProvider'
 import { PizzaSize } from '@/src/types'
-
-const sizes: PizzaSize[] = ['S', 'M', 'L', 'XL']
+import { FontAwesome } from '@expo/vector-icons'
+import Colors from '@/src/constants/Colors'
 
 export default function ProductDetailScreen() {
   const { productId } = useLocalSearchParams()
@@ -25,12 +24,40 @@ export default function ProductDetailScreen() {
 
     router.push('/cart')
   }
+
   if (!product) {
     return <Text>Product not found</Text>
   }
 
   return (
     <View style={styles.container}>
+      <Stack.Screen
+        options={{
+          title: 'Menu',
+          headerRight: () => {
+            return (
+              <Pressable
+                onPressIn={() =>
+                  router.push({
+                    pathname: '/menu/create',
+                    params: { productId },
+                  })
+                }
+              >
+                {({ pressed }) => (
+                  <FontAwesome
+                    name='pencil'
+                    size={25}
+                    color={Colors.light.tint}
+                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
+                  />
+                )}
+              </Pressable>
+            )
+          },
+        }}
+      />
+
       <Stack.Screen options={{ title: ` ${product.name} ` }} />
 
       <Image

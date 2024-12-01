@@ -3,6 +3,7 @@ import { defaultProductImage } from '@/src/components/ProductListIem'
 import Colors from '@/src/constants/Colors'
 import { useState } from 'react'
 import {
+  Alert,
   Image,
   Keyboard,
   ScrollView,
@@ -12,9 +13,12 @@ import {
   View,
 } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { Stack } from 'expo-router'
+import { Stack, useLocalSearchParams } from 'expo-router'
 
 const CreateProductScreen = () => {
+  const { productId } = useLocalSearchParams()
+  const isUpdating = !!productId
+
   const [name, setName] = useState('')
   const [price, setPrice] = useState('')
   const [error, setError] = useState('')
@@ -34,6 +38,23 @@ const CreateProductScreen = () => {
     return true
   }
 
+  const onSubmit = () => {
+    if (isUpdating) {
+      onUpdate()
+    } else {
+      onCreate()
+    }
+  }
+
+  const onUpdate = () => {
+    if (!validateInputs()) return
+
+    console.log('updating')
+
+    resetFields()
+    Keyboard.dismiss()
+  }
+
   const onCreate = () => {
     if (!validateInputs()) return
 
@@ -41,6 +62,30 @@ const CreateProductScreen = () => {
 
     resetFields()
     Keyboard.dismiss()
+  }
+
+  const confirmDelete = () => {
+    Alert.alert(
+      'Delete Product',
+      'Are you sure you want to delete this product?',
+      [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: onDelete,
+        },
+      ],
+      {
+        cancelable: true,
+      }
+    )
+  }
+
+  const onDelete = () => {
+    console.log('deleting')
   }
 
   const pickImage = async () => {
@@ -68,7 +113,10 @@ const CreateProductScreen = () => {
       keyboardShouldPersistTaps='handled'
     >
       <Stack.Screen
-        options={{ title: 'Add Product', headerTitleAlign: 'center' }}
+        options={{
+          title: isUpdating ? 'Modify Product' : 'Add Product',
+          headerTitleAlign: 'center',
+        }}
       />
 
       <Image
@@ -98,7 +146,14 @@ const CreateProductScreen = () => {
       </View>
       <Text style={{ color: 'red' }}>{error}</Text>
 
-      <Button onPress={onCreate} text='Add Product' />
+      <Button onPress={onSubmit} text={isUpdating ? 'Save' : 'Add Product'} />
+      {isUpdating && (
+        <Button
+          onPress={confirmDelete}
+          buttonStyle={styles.deleteButton}
+          text='delete'
+        />
+      )}
     </ScrollView>
   )
 }
@@ -129,6 +184,10 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     fontWeight: 'bold',
     color: Colors.light.tint,
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    marginTop: 10,
   },
 })
 
