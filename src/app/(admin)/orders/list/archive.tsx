@@ -4,8 +4,6 @@ import { Link } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { FlatList, RefreshControl, Text, View } from 'react-native'
 
-const orderData = orders
-
 const orderIndex = () => {
   const [refreshing, setRefreshing] = useState(false)
 
@@ -19,6 +17,7 @@ const orderIndex = () => {
 
   return (
     <FlatList
+      style={{ paddingHorizontal: 10, paddingTop: 5 }}
       keyExtractor={(item) => item.id.toString()}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

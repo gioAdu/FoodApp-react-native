@@ -1,9 +1,10 @@
 import { Stack } from 'expo-router'
-import { View } from 'react-native'
 
 const OrderLayout = () => {
   return (
-    <Stack screenOptions={{ title: 'Orders', contentStyle: { padding: 10 } }} />
+    <Stack>
+      <Stack.Screen name='list' options={{ headerShown: false }} />
+    </Stack>
   )
 }
 
